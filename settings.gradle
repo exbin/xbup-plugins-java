@@ -1,0 +1,6 @@
+rootProject.name = 'xbup-plugins-java'
+
+include ":plugins:xbup-plugin-audio"
+include ":plugins:xbup-plugin-basic"
+include ":plugins:xbup-plugin-picture"
+include ":plugins:xbup-plugin-time"
