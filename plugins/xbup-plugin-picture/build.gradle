@@ -13,8 +13,8 @@ repositories {
 }
 
 dependencies {
-    compile "org.exbin.xbup:xbup-core:${xbupVersion}"
-    compile "org.exbin.xbup:xbup-plugin:${xbupVersion}"
-    compile "org.exbin.xbup.data:xbup-data-visual:${xbupDataVersion}"
+    compile moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-core')
+    compile moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-plugin')
+    compile moduleDep('XbupDataJava', 'org.exbin.xbup.data', 'xbup-data-visual')
     testCompile group: 'junit', name: 'junit', version: '4.10'    
 }
