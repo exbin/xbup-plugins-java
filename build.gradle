@@ -1,4 +1,4 @@
-version = '0.2.0-SNAPSHOT'
+version = '0.2.0'
 
 buildscript {
     repositories {
@@ -15,7 +15,7 @@ buildscript {
 }
 
 task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
-    gradleVersion = '2.14'
+    gradleVersion = '3.2'
 }
 
 task('cleanDeps') << {
@@ -83,6 +83,30 @@ if (!project.gradle.startParameter.projectProperties.containsKey("moduleDep")) {
 
                 into('lib') {
                     from 'lib'
+                }
+
+//                project(':plugins').subprojects.each { p ->
+//                    p.plugins.withType(JavaPlugin) {
+//                        into('lib') {
+//                            from p.jar.archivePath
+//                            include '*'
+//                            from p.configurations.runtime
+//                            include '*'
+//                        }
+//                    }
+//                }
+
+                project(':plugins').subprojects.each { p ->
+                    p.plugins.withType(JavaPlugin) {
+                        into('') {
+                            from p.jar
+                            include '*'
+                            from p.sourceJar
+                            include '*'
+                            from p.javadocJar
+                            include '*'
+                        }
+                    }
                 }
 
                 into('doc') {
