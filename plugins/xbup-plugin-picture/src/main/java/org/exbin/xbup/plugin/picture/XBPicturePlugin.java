@@ -32,7 +32,7 @@ public class XBPicturePlugin implements XBCatalogPlugin {
 
     @Override
     public String getPluginPath() {
-        return "xbup/visual/picture/xbup-plugin-picture-0.1.24-SNAPSHOT.jar";
+        return "xbup/visual/picture/xbup-plugin-picture-0.2.1-SNAPSHOT.jar";
     }
 
     @Override

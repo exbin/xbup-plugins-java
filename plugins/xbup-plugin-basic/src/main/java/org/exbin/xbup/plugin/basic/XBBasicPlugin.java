@@ -36,7 +36,7 @@ public class XBBasicPlugin implements XBCatalogPlugin {
 
     @Override
     public String getPluginPath() {
-        return "basic/xbup-plugin-basic-0.1.24-SNAPSHOT.jar";
+        return "basic/xbup-plugin-basic-0.2.1-SNAPSHOT.jar";
     }
 
     @Override
