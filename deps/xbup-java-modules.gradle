@@ -4,17 +4,13 @@ version = '0.2.1-SNAPSHOT'
 def repositoryName = "xbup-java"
 def libraryUrl = 'http://xbup.exbin.org'
 
-ext.depsXbupJava = [
-    githubProfile: 'exbin',
-    githubRepo: "${repositoryName}",
-    version: "${version}"
-]
-
 ext.depsExbinAuxiliaryJava = [
     githubProfile: 'exbin',
     githubRepo: 'exbin-auxiliary-java',
     version: '0.2.0-SNAPSHOT'
 ]
+
+ext.depsThis = 'XbupJava'
 
 buildscript {
     repositories {
@@ -26,7 +22,7 @@ buildscript {
     }
 }
 
-['java', 'maven-publish', 'at.bxm.svntools'].each {
+['java-library', 'maven-publish', 'at.bxm.svntools', 'signing'].each {
     apply plugin: it
 }
 import org.gradle.util.VersionNumber
@@ -57,7 +53,7 @@ if (!gradle.startParameter.taskNames.any {it.endsWith("test")}) {
 
 task testJar(type: Jar, dependsOn: testClasses) {
     classifier "tests"
-    baseName = "test-${project.archivesBaseName}"
+    archiveBaseName = "test-${project.archivesBaseName}"
     from sourceSets.test.output
 }
 
@@ -67,6 +63,22 @@ configurations {
 
 artifacts {
     tests testJar
+}
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.java
+}
+
+javadoc {
+    if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 def createSvnDownloadTask(def moduleName, def svnUrlValue, def targetDirValue) {
@@ -80,6 +92,10 @@ def createSvnDownloadTask(def moduleName, def svnUrlValue, def targetDirValue) {
 // - local maven repository module will be used if available
 // - otherwise module will be download to deps folder
 project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
+    if (depsName == ext.depsThis) {
+        return project(':modules:' + moduleName)
+    }
+
     def mavenModuleDir = repositories.mavenLocal().url.path + packageName.replace('.', '/') + '/' + moduleName + '/' + ext['deps' + depsName].version
     if (new File(mavenModuleDir).isDirectory()) {
         // Use maven package if available
@@ -87,6 +103,10 @@ project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
     }
 
     def depsDir = rootProject.buildDir.parent + '/deps/'
+    if (gradle.startParameter.taskNames == ['clean']) {
+        return project(':deps')
+    }
+
     def depModuleDir = depsDir + moduleName
     if (!new File(depModuleDir).isDirectory()) {
         // Download module
@@ -111,6 +131,111 @@ project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
 }
 
 project.dependencies.ext.moduleDepPath = { depsName, moduleName ->
+    if (depsName == ext.depsThis) {
+        return ":modules:${moduleName}"
+    }
+
     return ":deps:${moduleName}"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourceJar {
+                classifier 'sources'
+            }
+            artifact (javadocJar) {
+                classifier = 'javadoc'
+            }
+
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name libraryName
+                    description libraryDescription
+                    url libraryUrl
+                    scm {
+                        url "https://github.com/exbin/${repositoryName}"
+                        connection "cm:git:git://github.com/exbin/${repositoryName}.git"
+                        developerConnection "scm:git:git@github.com:exbin/${repositoryName}.git"
+                    }
+                    licenses {
+                        license {
+                            name 'Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'HajdaM'
+                            name 'Miroslav Hajda'
+                            email 'hajdam@users.sf.net'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+}
+
+if (gradle.startParameter.taskNames.contains("uploadArchives") && !version.endsWith('-SNAPSHOT')) {
+    artifacts {
+        archives javadocJar, sourceJar
+    }
+
+    signing {
+        sign configurations.archives
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment {
+                    MavenDeployment deployment -> signing.signPom(deployment)
+                }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name libraryName
+                    packaging 'jar'
+                    description libraryDescription
+                    url libraryUrl
+
+                    scm {
+                        url "https://github.com/exbin/${repositoryName}"
+                        connection "cm:git:git://github.com/exbin/${repositoryName}.git"
+                        developerConnection "scm:git:git@github.com:exbin/${repositoryName}.git"
+                    }
+                    licenses {
+                        license {
+                            name 'Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'HajdaM'
+                            name 'Miroslav Hajda'
+                            email 'hajdam@users.sf.net'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
