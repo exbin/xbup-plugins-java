@@ -20,22 +20,24 @@ import java.awt.event.FocusListener;
 import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
+import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
-import org.exbin.xbup.core.ubnumber.type.UBNat32;
-import org.exbin.xbup.plugin.XBAbstractLineEditor;
-import org.exbin.xbup.plugin.XBLineEditor;
+import org.exbin.xbup.core.ubnumber.type.UBInt32;
+import org.exbin.xbup.plugin.XBAbstractRowEditor;
+import org.exbin.xbup.plugin.XBRowEditor;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2015/01/26
+ * @version 0.2.1 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
-public class NaturalLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBPSequenceSerializable {
+public class IntegerRowEditor extends XBAbstractRowEditor implements XBRowEditor, XBPSequenceSerializable {
 
-    private UBNat32 value = new UBNat32();
+    private UBInt32 value = new UBInt32();
+    private JTextField editor = null;
 
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
@@ -43,7 +45,7 @@ public class NaturalLineEditor extends XBAbstractLineEditor implements XBLineEdi
     }
 
     @Override
-    public JComponent getComponent() {
+    public JComponent getViewer() {
         JTextField component = new JTextField(String.valueOf(value.getLong()));
         component.setEditable(false);
         component.setOpaque(false);
@@ -52,9 +54,8 @@ public class NaturalLineEditor extends XBAbstractLineEditor implements XBLineEdi
 
     @Override
     public JComponent getEditor() {
-        JTextField component = new JTextField(String.valueOf(value.getLong()));
-        component.requestFocusInWindow();
-        component.addFocusListener(new FocusListener() {
+        editor = new JTextField(String.valueOf(value.getLong()));
+        editor.addFocusListener(new FocusListener() {
             @Override
             public void focusLost(final FocusEvent fe) {
             }
@@ -64,23 +65,32 @@ public class NaturalLineEditor extends XBAbstractLineEditor implements XBLineEdi
                 ((JTextField) fe.getComponent()).selectAll();
             }
         });
-        return component;
+        return editor;
     }
 
     @Override
-    public boolean finishEditor(JComponent editor) {
-        JTextField component = (JTextField) editor;
-        component.setCaretPosition(0);
-        value.setValue(Long.valueOf(component.getText()));
+    public boolean finishEditor() {
+        editor.setCaretPosition(0);
+        value.setValue(Long.valueOf(editor.getText()));
         fireValueChange();
         return true;
     }
 
-    public UBNat32 getValue() {
+    public UBInt32 getValue() {
         return value;
     }
 
-    public void setValue(UBNat32 value) {
+    public void setValue(UBInt32 value) {
         this.value = value;
+    }
+
+    @Override
+    public void setData(XBTBlock block) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBTBlock getData() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

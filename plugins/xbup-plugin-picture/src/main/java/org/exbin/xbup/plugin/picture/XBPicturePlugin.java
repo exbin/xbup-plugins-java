@@ -15,8 +15,9 @@
  */
 package org.exbin.xbup.plugin.picture;
 
-import org.exbin.xbup.plugin.XBLineEditor;
-import org.exbin.xbup.plugin.XBPanelEditor;
+import javax.annotation.Nonnull;
+import org.exbin.xbup.plugin.XBRowEditor;
+import org.exbin.xbup.plugin.XBComponentEditor;
 import org.exbin.xbup.plugin.XBTransformation;
 import org.exbin.xbup.plugin.picture.pane.PicturePaneEditor;
 import org.exbin.xbup.plugin.XBCatalogPlugin;
@@ -24,7 +25,7 @@ import org.exbin.xbup.plugin.XBCatalogPlugin;
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.2.0 2016/03/27
+ * @version 0.2.0 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPicturePlugin implements XBCatalogPlugin {
@@ -35,22 +36,24 @@ public class XBPicturePlugin implements XBCatalogPlugin {
     }
 
     @Override
-    public long getLineEditorsCount() {
+    public long getRowEditorsCount() {
         return 0;
     }
 
+    @Nonnull
     @Override
-    public XBLineEditor getLineEditor(long index) {
+    public XBRowEditor getRowEditor(long index) {
         return null;
     }
 
     @Override
-    public long getPanelEditorsCount() {
+    public long getComponentEditorsCount() {
         return 1;
     }
 
+    @Nonnull
     @Override
-    public XBPanelEditor getPanelEditor(long index) {
+    public XBComponentEditor getComponentEditor(long index) {
         if (index == 0) {
             return new PicturePaneEditor();
         }
@@ -62,6 +65,7 @@ public class XBPicturePlugin implements XBCatalogPlugin {
         return 0;
     }
 
+    @Nonnull
     @Override
     public XBTransformation getTransformation(long index) {
         return null;

@@ -20,22 +20,24 @@ import java.awt.event.FocusListener;
 import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
+import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
-import org.exbin.xbup.core.type.XBString;
-import org.exbin.xbup.plugin.XBAbstractLineEditor;
-import org.exbin.xbup.plugin.XBLineEditor;
+import org.exbin.xbup.core.ubnumber.type.UBNat32;
+import org.exbin.xbup.plugin.XBAbstractRowEditor;
+import org.exbin.xbup.plugin.XBRowEditor;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.2.1 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
-public class StringLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBPSequenceSerializable {
+public class NaturalRowEditor extends XBAbstractRowEditor implements XBRowEditor, XBPSequenceSerializable {
 
-    private XBString value = new XBString();
+    private UBNat32 value = new UBNat32();
+    private JTextField editor = null;
 
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
@@ -43,8 +45,8 @@ public class StringLineEditor extends XBAbstractLineEditor implements XBLineEdit
     }
 
     @Override
-    public JComponent getComponent() {
-        JTextField component = new JTextField(value.getValue());
+    public JComponent getViewer() {
+        JTextField component = new JTextField(String.valueOf(value.getLong()));
         component.setEditable(false);
         component.setOpaque(false);
         return component;
@@ -52,8 +54,9 @@ public class StringLineEditor extends XBAbstractLineEditor implements XBLineEdit
 
     @Override
     public JComponent getEditor() {
-        JTextField component = new JTextField(value.getValue());
-        component.addFocusListener(new FocusListener() {
+        editor = new JTextField(String.valueOf(value.getLong()));
+        editor.requestFocusInWindow();
+        editor.addFocusListener(new FocusListener() {
             @Override
             public void focusLost(final FocusEvent fe) {
             }
@@ -63,23 +66,32 @@ public class StringLineEditor extends XBAbstractLineEditor implements XBLineEdit
                 ((JTextField) fe.getComponent()).selectAll();
             }
         });
-        return component;
+        return editor;
     }
 
     @Override
-    public boolean finishEditor(JComponent editor) {
-        JTextField component = (JTextField) editor;
-        component.setCaretPosition(0);
-        value.setValue(component.getText());
+    public boolean finishEditor() {
+        editor.setCaretPosition(0);
+        value.setValue(Long.valueOf(editor.getText()));
         fireValueChange();
         return true;
     }
 
-    public XBString getValue() {
+    public UBNat32 getValue() {
         return value;
     }
 
-    public void setValue(XBString value) {
+    public void setValue(UBNat32 value) {
         this.value = value;
+    }
+
+    @Override
+    public void setData(XBTBlock block) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBTBlock getData() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

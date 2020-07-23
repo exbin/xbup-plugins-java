@@ -19,24 +19,27 @@ import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
+import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.ubnumber.type.UBBool;
-import org.exbin.xbup.plugin.XBAbstractLineEditor;
-import org.exbin.xbup.plugin.XBLineEditor;
+import org.exbin.xbup.plugin.XBAbstractRowEditor;
+import org.exbin.xbup.plugin.XBRowEditor;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2015/01/13
+ * @version 0.2.1 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
-public class BooleanLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBPSequenceSerializable {
+public class BooleanRowEditor extends XBAbstractRowEditor implements XBRowEditor, XBPSequenceSerializable {
 
     private UBBool value = new UBBool();
     private static final String TRUE_TEXT = "true";
     private static final String FALSE_TEXT = "false";
+    
+    private JCheckBox editor = null;
 
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
@@ -44,7 +47,7 @@ public class BooleanLineEditor extends XBAbstractLineEditor implements XBLineEdi
     }
 
     @Override
-    public JComponent getComponent() {
+    public JComponent getViewer() {
         JCheckBox component = new JCheckBox(FALSE_TEXT);
         component.addChangeListener(new javax.swing.event.ChangeListener() {
 
@@ -62,8 +65,8 @@ public class BooleanLineEditor extends XBAbstractLineEditor implements XBLineEdi
 
     @Override
     public JComponent getEditor() {
-        JCheckBox component = new JCheckBox(FALSE_TEXT);
-        component.addChangeListener(new javax.swing.event.ChangeListener() {
+        editor = new JCheckBox(FALSE_TEXT);
+        editor.addChangeListener(new javax.swing.event.ChangeListener() {
 
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -71,15 +74,14 @@ public class BooleanLineEditor extends XBAbstractLineEditor implements XBLineEdi
                 source.setText(source.isSelected() ? TRUE_TEXT : FALSE_TEXT);
             }
         });
-        component.setSelected(value.getBoolean());
-        component.requestFocusInWindow();
-        return component;
+        editor.setSelected(value.getBoolean());
+        editor.requestFocusInWindow();
+        return editor;
     }
 
     @Override
-    public boolean finishEditor(JComponent editor) {
-        JCheckBox component = (JCheckBox) editor;
-        value.setValue(component.isSelected());
+    public boolean finishEditor() {
+        value.setValue(editor.isSelected());
         fireValueChange();
         return true;
     }
@@ -90,5 +92,15 @@ public class BooleanLineEditor extends XBAbstractLineEditor implements XBLineEdi
 
     public void setValue(UBBool value) {
         this.value = value;
+    }
+
+    @Override
+    public void setData(XBTBlock block) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBTBlock getData() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

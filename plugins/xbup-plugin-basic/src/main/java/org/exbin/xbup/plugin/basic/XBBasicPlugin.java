@@ -15,14 +15,16 @@
  */
 package org.exbin.xbup.plugin.basic;
 
+import javax.annotation.Nonnull;
 import javax.swing.JPanel;
-import org.exbin.xbup.plugin.XBLineEditor;
-import org.exbin.xbup.plugin.XBPanelEditor;
+import org.exbin.xbup.core.block.XBTBlock;
+import org.exbin.xbup.plugin.XBRowEditor;
+import org.exbin.xbup.plugin.XBComponentEditor;
 import org.exbin.xbup.plugin.XBTransformation;
-import org.exbin.xbup.plugin.basic.line.BooleanLineEditor;
-import org.exbin.xbup.plugin.basic.line.IntegerLineEditor;
-import org.exbin.xbup.plugin.basic.line.NaturalLineEditor;
-import org.exbin.xbup.plugin.basic.line.StringLineEditor;
+import org.exbin.xbup.plugin.basic.line.BooleanRowEditor;
+import org.exbin.xbup.plugin.basic.line.IntegerRowEditor;
+import org.exbin.xbup.plugin.basic.line.NaturalRowEditor;
+import org.exbin.xbup.plugin.basic.line.StringRowEditor;
 import org.exbin.xbup.plugin.XBCatalogPlugin;
 
 /**
@@ -33,52 +35,70 @@ import org.exbin.xbup.plugin.XBCatalogPlugin;
  */
 public class XBBasicPlugin implements XBCatalogPlugin {
 
+    @Nonnull
     @Override
     public String getPluginPath() {
         return "basic/xbup-plugin-basic-0.2.1-SNAPSHOT.jar";
     }
 
     @Override
-    public long getLineEditorsCount() {
+    public long getRowEditorsCount() {
         return 4;
     }
 
+    @Nonnull
     @Override
-    public XBLineEditor getLineEditor(long index) {
+    public XBRowEditor getRowEditor(long index) {
         switch ((int) index) {
             case 0: {
-                return new NaturalLineEditor();
+                return new NaturalRowEditor();
             }
             case 1: {
-                return new IntegerLineEditor();
+                return new IntegerRowEditor();
             }
             case 2: {
-                return new StringLineEditor();
+                return new StringRowEditor();
             }
             case 3: {
-                return new BooleanLineEditor();
+                return new BooleanRowEditor();
             }
         }
         return null;
     }
 
     @Override
-    public long getPanelEditorsCount() {
+    public long getComponentEditorsCount() {
         return 1;
     }
 
+    @Nonnull
     @Override
-    public XBPanelEditor getPanelEditor(long index) {
+    public XBComponentEditor getComponentEditor(long index) {
         if (index == 0) {
-            return new XBPanelEditor() {
+            return new XBComponentEditor() {
 
                 @Override
-                public JPanel getPanel() {
+                public JPanel getEditor() {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
 
                 @Override
-                public void attachChangeListener(XBPanelEditor.ChangeListener listener) {
+                public void attachChangeListener(XBComponentEditor.ChangeListener listener) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public boolean finishEditor() {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public void setData(XBTBlock block) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public XBTBlock getData() {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
             };
@@ -91,6 +111,7 @@ public class XBBasicPlugin implements XBCatalogPlugin {
         return 0;
     }
 
+    @Nonnull
     @Override
     public XBTransformation getTransformation(long index) {
         return null;

@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.plugin.time;
 
+import javax.annotation.Nonnull;
 import javax.swing.JPanel;
+import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.plugin.XBCatalogPlugin;
-import org.exbin.xbup.plugin.XBLineEditor;
-import org.exbin.xbup.plugin.XBPanelEditor;
+import org.exbin.xbup.plugin.XBRowEditor;
+import org.exbin.xbup.plugin.XBComponentEditor;
 import org.exbin.xbup.plugin.XBTransformation;
 
 /**
@@ -29,18 +31,20 @@ import org.exbin.xbup.plugin.XBTransformation;
  */
 public class XBTimePlugin implements XBCatalogPlugin {
 
+    @Nonnull
     @Override
     public String getPluginPath() {
         return "xbup/time/XBTimePlugin.jar";
     }
 
     @Override
-    public long getLineEditorsCount() {
+    public long getRowEditorsCount() {
         return 0;
     }
 
+    @Nonnull
     @Override
-    public XBLineEditor getLineEditor(long index) {
+    public XBRowEditor getRowEditor(long index) {
         switch ((int) index) {
             case 0: {
                 return null;
@@ -50,22 +54,38 @@ public class XBTimePlugin implements XBCatalogPlugin {
     }
 
     @Override
-    public long getPanelEditorsCount() {
+    public long getComponentEditorsCount() {
         return 1;
     }
 
+    @Nonnull
     @Override
-    public XBPanelEditor getPanelEditor(long index) {
+    public XBComponentEditor getComponentEditor(long index) {
         if (index == 0) {
-            return new XBPanelEditor() {
+            return new XBComponentEditor() {
 
                 @Override
-                public JPanel getPanel() {
+                public JPanel getEditor() {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
 
                 @Override
-                public void attachChangeListener(XBPanelEditor.ChangeListener listener) {
+                public void attachChangeListener(XBComponentEditor.ChangeListener listener) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public boolean finishEditor() {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public void setData(XBTBlock block) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public XBTBlock getData() {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
             };
@@ -78,6 +98,7 @@ public class XBTimePlugin implements XBCatalogPlugin {
         return 0;
     }
 
+    @Nonnull
     @Override
     public XBTransformation getTransformation(long index) {
         return null;
