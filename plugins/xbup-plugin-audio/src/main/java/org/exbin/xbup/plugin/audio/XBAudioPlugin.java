@@ -34,7 +34,7 @@ public class XBAudioPlugin implements XBCatalogPlugin {
     @Nonnull
     @Override
     public String getPluginPath() {
-        return "xbup/visual/audio/XBAudioPlugin.jar";
+        return "xbup/visual/audio/xbup-plugin-audio-0.2.1-SNAPSHOT.jar";
     }
 
     @Override

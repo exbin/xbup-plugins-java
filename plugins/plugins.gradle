@@ -34,7 +34,7 @@ buildscript {
     }
 }
 
-['java', 'maven', 'at.bxm.svntools'].each {
+['java', 'maven-publish', 'at.bxm.svntools'].each {
     apply plugin: it
 }
 import org.gradle.util.VersionNumber

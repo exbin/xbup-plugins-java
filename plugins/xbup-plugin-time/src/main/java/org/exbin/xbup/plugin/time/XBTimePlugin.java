@@ -34,7 +34,7 @@ public class XBTimePlugin implements XBCatalogPlugin {
     @Nonnull
     @Override
     public String getPluginPath() {
-        return "xbup/time/XBTimePlugin.jar";
+        return "xbup/time/xbup-plugin-time-0.2.1-SNAPSHOT.jar";
     }
 
     @Override
