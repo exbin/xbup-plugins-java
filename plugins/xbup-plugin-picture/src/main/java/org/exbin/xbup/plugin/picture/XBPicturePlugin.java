@@ -16,11 +16,16 @@
 package org.exbin.xbup.plugin.picture;
 
 import javax.annotation.Nonnull;
+import org.exbin.xbup.plugin.InvalidPluginParameter;
 import org.exbin.xbup.plugin.XBRowEditor;
 import org.exbin.xbup.plugin.XBComponentEditor;
 import org.exbin.xbup.plugin.XBTransformation;
 import org.exbin.xbup.plugin.picture.pane.PicturePaneEditor;
 import org.exbin.xbup.plugin.XBCatalogPlugin;
+import org.exbin.xbup.plugin.XBComponentEditorCatalogPlugin;
+import org.exbin.xbup.plugin.XBComponentViewer;
+import org.exbin.xbup.plugin.XBComponentViewerCatalogPlugin;
+import org.exbin.xbup.plugin.XBRowEditorCatalogPlugin;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
@@ -28,7 +33,7 @@ import org.exbin.xbup.plugin.XBCatalogPlugin;
  * @version 0.2.0 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPicturePlugin implements XBCatalogPlugin {
+public class XBPicturePlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin, XBComponentViewerCatalogPlugin, XBComponentEditorCatalogPlugin {
 
     @Override
     public String getPluginPath() {
@@ -43,7 +48,17 @@ public class XBPicturePlugin implements XBCatalogPlugin {
     @Nonnull
     @Override
     public XBRowEditor getRowEditor(long index) {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public long getComponentViewersCount() {
+        return 0;
+    }
+
+    @Override
+    public XBComponentViewer getComponentViewer(long index) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -57,17 +72,7 @@ public class XBPicturePlugin implements XBCatalogPlugin {
         if (index == 0) {
             return new PicturePaneEditor();
         }
-        return null;
-    }
 
-    @Override
-    public long getTransformationCount() {
-        return 0;
-    }
-
-    @Nonnull
-    @Override
-    public XBTransformation getTransformation(long index) {
-        return null;
+        throw new InvalidPluginParameter();
     }
 }

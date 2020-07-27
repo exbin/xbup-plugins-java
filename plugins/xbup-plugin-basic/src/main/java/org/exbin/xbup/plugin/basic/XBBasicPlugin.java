@@ -18,22 +18,26 @@ package org.exbin.xbup.plugin.basic;
 import javax.annotation.Nonnull;
 import javax.swing.JPanel;
 import org.exbin.xbup.core.block.XBTBlock;
+import org.exbin.xbup.plugin.InvalidPluginParameter;
 import org.exbin.xbup.plugin.XBRowEditor;
 import org.exbin.xbup.plugin.XBComponentEditor;
-import org.exbin.xbup.plugin.XBTransformation;
 import org.exbin.xbup.plugin.basic.line.BooleanRowEditor;
 import org.exbin.xbup.plugin.basic.line.IntegerRowEditor;
 import org.exbin.xbup.plugin.basic.line.NaturalRowEditor;
 import org.exbin.xbup.plugin.basic.line.StringRowEditor;
 import org.exbin.xbup.plugin.XBCatalogPlugin;
+import org.exbin.xbup.plugin.XBComponentEditorCatalogPlugin;
+import org.exbin.xbup.plugin.XBComponentViewer;
+import org.exbin.xbup.plugin.XBComponentViewerCatalogPlugin;
+import org.exbin.xbup.plugin.XBRowEditorCatalogPlugin;
 
 /**
- * XBUP Editor plugin - provides panels for basic XBUP data types.
+ * Basic catalog plugin - provides panels for basic XBUP data types.
  *
- * @version 0.2.0 2016/03/27
+ * @version 0.2.1 2020/07/27
  * @author ExBin Project (http://exbin.org)
  */
-public class XBBasicPlugin implements XBCatalogPlugin {
+public class XBBasicPlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin, XBComponentViewerCatalogPlugin, XBComponentEditorCatalogPlugin {
 
     @Nonnull
     @Override
@@ -63,7 +67,18 @@ public class XBBasicPlugin implements XBCatalogPlugin {
                 return new BooleanRowEditor();
             }
         }
-        return null;
+
+        throw new InvalidPluginParameter();
+    }
+
+    @Override
+    public long getComponentViewersCount() {
+        return 0;
+    }
+
+    @Override
+    public XBComponentViewer getComponentViewer(long index) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -103,17 +118,7 @@ public class XBBasicPlugin implements XBCatalogPlugin {
                 }
             };
         }
-        return null;
-    }
 
-    @Override
-    public long getTransformationCount() {
-        return 0;
-    }
-
-    @Nonnull
-    @Override
-    public XBTransformation getTransformation(long index) {
-        return null;
+        throw new InvalidPluginParameter();
     }
 }
