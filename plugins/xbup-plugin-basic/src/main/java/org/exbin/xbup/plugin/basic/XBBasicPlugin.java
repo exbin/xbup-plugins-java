@@ -18,7 +18,7 @@ package org.exbin.xbup.plugin.basic;
 import javax.annotation.Nonnull;
 import javax.swing.JPanel;
 import org.exbin.xbup.core.block.XBTBlock;
-import org.exbin.xbup.plugin.InvalidPluginParameter;
+import org.exbin.xbup.plugin.InvalidPluginParameterException;
 import org.exbin.xbup.plugin.XBRowEditor;
 import org.exbin.xbup.plugin.XBComponentEditor;
 import org.exbin.xbup.plugin.basic.line.BooleanRowEditor;
@@ -68,7 +68,7 @@ public class XBBasicPlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin,
             }
         }
 
-        throw new InvalidPluginParameter();
+        throw new InvalidPluginParameterException();
     }
 
     @Override
@@ -119,6 +119,6 @@ public class XBBasicPlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin,
             };
         }
 
-        throw new InvalidPluginParameter();
+        throw new InvalidPluginParameterException();
     }
 }

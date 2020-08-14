@@ -18,7 +18,7 @@ package org.exbin.xbup.plugin.audio;
 import javax.annotation.Nonnull;
 import javax.swing.JPanel;
 import org.exbin.xbup.core.block.XBTBlock;
-import org.exbin.xbup.plugin.InvalidPluginParameter;
+import org.exbin.xbup.plugin.InvalidPluginParameterException;
 import org.exbin.xbup.plugin.XBCatalogPlugin;
 import org.exbin.xbup.plugin.XBRowEditor;
 import org.exbin.xbup.plugin.XBComponentEditor;
@@ -100,6 +100,6 @@ public class XBAudioPlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin,
             };
         }
 
-        throw new InvalidPluginParameter();
+        throw new InvalidPluginParameterException();
     }
 }

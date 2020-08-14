@@ -16,7 +16,7 @@
 package org.exbin.xbup.plugin.picture;
 
 import javax.annotation.Nonnull;
-import org.exbin.xbup.plugin.InvalidPluginParameter;
+import org.exbin.xbup.plugin.InvalidPluginParameterException;
 import org.exbin.xbup.plugin.XBRowEditor;
 import org.exbin.xbup.plugin.XBComponentEditor;
 import org.exbin.xbup.plugin.XBTransformation;
@@ -73,6 +73,6 @@ public class XBPicturePlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugi
             return new PicturePaneEditor();
         }
 
-        throw new InvalidPluginParameter();
+        throw new InvalidPluginParameterException();
     }
 }
