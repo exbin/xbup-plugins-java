@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.plugin.basic.line;
+package org.exbin.xbup.plugin.basic.row_editor;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -24,7 +24,7 @@ import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
-import org.exbin.xbup.core.type.XBString;
+import org.exbin.xbup.core.ubnumber.type.UBInt32;
 import org.exbin.xbup.plugin.XBAbstractRowEditor;
 import org.exbin.xbup.plugin.XBRowEditor;
 
@@ -34,9 +34,9 @@ import org.exbin.xbup.plugin.XBRowEditor;
  * @version 0.2.1 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
-public class StringRowEditor extends XBAbstractRowEditor implements XBRowEditor, XBPSequenceSerializable {
+public class IntegerRowEditor extends XBAbstractRowEditor implements XBRowEditor, XBPSequenceSerializable {
 
-    private XBString value = new XBString();
+    private UBInt32 value = new UBInt32();
     private JTextField editor = null;
 
     @Override
@@ -46,7 +46,7 @@ public class StringRowEditor extends XBAbstractRowEditor implements XBRowEditor,
 
     @Override
     public JComponent getViewer() {
-        JTextField component = new JTextField(value.getValue());
+        JTextField component = new JTextField(String.valueOf(value.getLong()));
         component.setEditable(false);
         component.setOpaque(false);
         return component;
@@ -54,7 +54,7 @@ public class StringRowEditor extends XBAbstractRowEditor implements XBRowEditor,
 
     @Override
     public JComponent getEditor() {
-        editor = new JTextField(value.getValue());
+        editor = new JTextField(String.valueOf(value.getLong()));
         editor.addFocusListener(new FocusListener() {
             @Override
             public void focusLost(final FocusEvent fe) {
@@ -71,16 +71,16 @@ public class StringRowEditor extends XBAbstractRowEditor implements XBRowEditor,
     @Override
     public boolean finishEditor() {
         editor.setCaretPosition(0);
-        value.setValue(editor.getText());
+        value.setValue(Long.valueOf(editor.getText()));
         fireValueChange();
         return true;
     }
 
-    public XBString getValue() {
+    public UBInt32 getValue() {
         return value;
     }
 
-    public void setValue(XBString value) {
+    public void setValue(UBInt32 value) {
         this.value = value;
     }
 

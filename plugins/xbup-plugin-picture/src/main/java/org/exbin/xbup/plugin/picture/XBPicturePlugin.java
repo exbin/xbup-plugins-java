@@ -19,8 +19,7 @@ import javax.annotation.Nonnull;
 import org.exbin.xbup.plugin.InvalidPluginParameterException;
 import org.exbin.xbup.plugin.XBRowEditor;
 import org.exbin.xbup.plugin.XBComponentEditor;
-import org.exbin.xbup.plugin.XBTransformation;
-import org.exbin.xbup.plugin.picture.pane.PicturePaneEditor;
+import org.exbin.xbup.plugin.picture.component_editor.PictureComponentEditor;
 import org.exbin.xbup.plugin.XBCatalogPlugin;
 import org.exbin.xbup.plugin.XBComponentEditorCatalogPlugin;
 import org.exbin.xbup.plugin.XBComponentViewer;
@@ -70,7 +69,7 @@ public class XBPicturePlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugi
     @Override
     public XBComponentEditor getComponentEditor(long index) {
         if (index == 0) {
-            return new PicturePaneEditor();
+            return new PictureComponentEditor();
         }
 
         throw new InvalidPluginParameterException();

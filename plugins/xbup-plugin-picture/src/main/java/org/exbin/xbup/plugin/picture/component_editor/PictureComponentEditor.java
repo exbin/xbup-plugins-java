@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.plugin.picture.pane;
+package org.exbin.xbup.plugin.picture.component_editor;
 
 import java.io.IOException;
 import javax.swing.JPanel;
@@ -31,11 +31,11 @@ import org.exbin.xbup.visual.xbplugins.XBPicturePanel;
  * @version 0.1.24 2015/01/14
  * @author ExBin Project (http://exbin.org)
  */
-public class PicturePaneEditor extends XBAbstractComponentEditor implements XBComponentEditor, XBPSequenceSerializable {
+public class PictureComponentEditor extends XBAbstractComponentEditor implements XBComponentEditor, XBPSequenceSerializable {
 
     private XBPicturePanel value = new XBPicturePanel();
 
-    public PicturePaneEditor() {
+    public PictureComponentEditor() {
         value.attachChangeListener(new XBPicturePanel.ChangeListener() {
 
             @Override
