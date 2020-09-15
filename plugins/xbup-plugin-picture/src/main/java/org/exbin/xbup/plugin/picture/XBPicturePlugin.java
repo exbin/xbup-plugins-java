@@ -25,6 +25,7 @@ import org.exbin.xbup.plugin.XBComponentEditorCatalogPlugin;
 import org.exbin.xbup.plugin.XBComponentViewer;
 import org.exbin.xbup.plugin.XBComponentViewerCatalogPlugin;
 import org.exbin.xbup.plugin.XBRowEditorCatalogPlugin;
+import org.exbin.xbup.plugin.picture.component_viewer.PictureComponentViewer;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
@@ -52,12 +53,16 @@ public class XBPicturePlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugi
 
     @Override
     public long getComponentViewersCount() {
-        return 0;
+        return 1;
     }
 
     @Override
     public XBComponentViewer getComponentViewer(long index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (index == 0) {
+            return new PictureComponentViewer();
+        }
+
+        throw new InvalidPluginParameterException();
     }
 
     @Override

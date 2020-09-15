@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.plugin.picture.component_editor;
+package org.exbin.xbup.plugin.picture.component_viewer;
 
 import java.io.IOException;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -22,8 +22,8 @@ import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
-import org.exbin.xbup.plugin.XBAbstractComponentEditor;
-import org.exbin.xbup.plugin.XBComponentEditor;
+import org.exbin.xbup.plugin.XBAbstractComponentViewer;
+import org.exbin.xbup.plugin.XBComponentViewer;
 import org.exbin.xbup.visual.xbplugins.XBPicturePanel;
 
 /**
@@ -33,18 +33,12 @@ import org.exbin.xbup.visual.xbplugins.XBPicturePanel;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class PictureComponentEditor extends XBAbstractComponentEditor implements XBComponentEditor, XBPSequenceSerializable {
+public class PictureComponentViewer extends XBAbstractComponentViewer implements XBComponentViewer, XBPSequenceSerializable {
 
     private XBPicturePanel value = new XBPicturePanel();
 
-    public PictureComponentEditor() {
-        value.attachChangeListener(new XBPicturePanel.ChangeListener() {
-
-            @Override
-            public void valueChanged() {
-                fireValueChange();
-            }
-        });
+    public PictureComponentViewer() {
+        value.attachChangeListener(this::fireValueChange);
     }
 
     @Override
@@ -53,7 +47,7 @@ public class PictureComponentEditor extends XBAbstractComponentEditor implements
     }
 
     @Override
-    public JPanel getEditor() {
+    public JPanel getViewer() {
         return value;
     }
 
@@ -66,17 +60,7 @@ public class PictureComponentEditor extends XBAbstractComponentEditor implements
     }
 
     @Override
-    public boolean finishEditor() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void setData(XBTBlock block) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBTBlock getData() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
