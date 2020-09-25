@@ -6,6 +6,7 @@ include ":plugins:xbup-plugin-audio"
 include ":plugins:xbup-plugin-basic"
 include ":plugins:xbup-plugin-picture"
 include ":plugins:xbup-plugin-time"
+include ":plugins:xbup-plugin-demo"
 
 File placeholder = file("deps/_placeholder")
 if (placeholder.exists()) {

@@ -13,33 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.plugin.picture.component_viewer;
+package org.exbin.xbup.plugin.basic.panel_editor;
 
 import java.io.IOException;
-import javax.annotation.ParametersAreNonnullByDefault;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
+import javax.swing.JTextArea;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
-import org.exbin.xbup.plugin.XBAbstractComponentViewer;
-import org.exbin.xbup.plugin.XBComponentViewer;
-import org.exbin.xbup.visual.xbplugins.XBPicturePanel;
+import org.exbin.xbup.core.type.XBText;
+import org.exbin.xbup.plugin.XBAbstractPanelEditor;
+import org.exbin.xbup.plugin.XBPanelEditor;
 
 /**
- * XBUP Editor plugin - provides panels for basic XBUP data types.
+ * XBUP editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.2.1 2020/09/15
+ * @version 0.2.1 2020/09/25
  * @author ExBin Project (http://exbin.org)
  */
-@ParametersAreNonnullByDefault
-public class PictureComponentViewer extends XBAbstractComponentViewer implements XBComponentViewer, XBPSequenceSerializable {
+public class TextPanelEditor extends XBAbstractPanelEditor implements XBPanelEditor, XBPSequenceSerializable {
 
-    private XBPicturePanel value = new XBPicturePanel();
-
-    public PictureComponentViewer() {
-        value.attachChangeListener(this::fireValueChange);
-    }
+    private XBText value = new XBText();
+    private JTextArea editor = null;
 
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
@@ -47,15 +43,23 @@ public class PictureComponentViewer extends XBAbstractComponentViewer implements
     }
 
     @Override
-    public JPanel getViewer() {
+    public JComponent getEditor() {
+        editor = new JTextArea(value.getValue());
+        return editor;
+    }
+
+    @Override
+    public boolean finishEditor() {
+        value.setValue(editor.getText());
+        fireValueChange();
+        return true;
+    }
+
+    public XBText getValue() {
         return value;
     }
 
-    public XBPicturePanel getValue() {
-        return value;
-    }
-
-    public void setValue(XBPicturePanel value) {
+    public void setValue(XBText value) {
         this.value = value;
     }
 

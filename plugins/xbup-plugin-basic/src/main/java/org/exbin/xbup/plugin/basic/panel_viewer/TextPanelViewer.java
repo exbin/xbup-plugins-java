@@ -1,0 +1,63 @@
+/*
+ * Copyright (C) ExBin Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.exbin.xbup.plugin.basic.panel_viewer;
+
+import java.io.IOException;
+import javax.swing.JComponent;
+import javax.swing.JTextArea;
+import org.exbin.xbup.core.block.XBTBlock;
+import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
+import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
+import org.exbin.xbup.core.type.XBText;
+import org.exbin.xbup.plugin.XBAbstractPanelViewer;
+import org.exbin.xbup.plugin.XBPanelViewer;
+
+/**
+ * XBUP viewer plugin - provides panels for basic XBUP data types.
+ *
+ * @version 0.2.1 2020/09/25
+ * @author ExBin Project (http://exbin.org)
+ */
+public class TextPanelViewer extends XBAbstractPanelViewer implements XBPanelViewer, XBPSequenceSerializable {
+
+    private XBText value = new XBText();
+
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.append(value);
+    }
+
+    @Override
+    public JComponent getViewer() {
+        JTextArea component = new JTextArea(value.getValue());
+        component.setEditable(false);
+        return component;
+    }
+
+    public XBText getValue() {
+        return value;
+    }
+
+    public void setValue(XBText value) {
+        this.value = value;
+    }
+
+    @Override
+    public void setData(XBTBlock block) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}

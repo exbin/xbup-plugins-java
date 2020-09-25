@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.plugin.picture.component_editor;
+package org.exbin.xbup.plugin.picture.panel_viewer;
 
 import java.io.IOException;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -22,29 +22,23 @@ import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
-import org.exbin.xbup.plugin.XBAbstractComponentEditor;
-import org.exbin.xbup.plugin.XBComponentEditor;
-import org.exbin.xbup.visual.xbplugins.XBPicturePanel;
+import org.exbin.xbup.plugin.XBAbstractPanelViewer;
+import org.exbin.xbup.plugin.XBPanelViewer;
+import org.exbin.xbup.visual.xbplugins.XBPictureViewerPanel;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.2.1 2020/09/15
+ * @version 0.2.1 2020/09/25
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class PictureComponentEditor extends XBAbstractComponentEditor implements XBComponentEditor, XBPSequenceSerializable {
+public class PicturePanelViewer extends XBAbstractPanelViewer implements XBPanelViewer, XBPSequenceSerializable {
 
-    private XBPicturePanel value = new XBPicturePanel();
+    private XBPictureViewerPanel value = new XBPictureViewerPanel();
 
-    public PictureComponentEditor() {
-        value.attachChangeListener(new XBPicturePanel.ChangeListener() {
-
-            @Override
-            public void valueChanged() {
-                fireValueChange();
-            }
-        });
+    public PicturePanelViewer() {
+        value.attachChangeListener(this::fireValueChange);
     }
 
     @Override
@@ -53,30 +47,20 @@ public class PictureComponentEditor extends XBAbstractComponentEditor implements
     }
 
     @Override
-    public JPanel getEditor() {
+    public JPanel getViewer() {
         return value;
     }
 
-    public XBPicturePanel getValue() {
+    public XBPictureViewerPanel getValue() {
         return value;
     }
 
-    public void setValue(XBPicturePanel value) {
+    public void setValue(XBPictureViewerPanel value) {
         this.value = value;
     }
 
     @Override
-    public boolean finishEditor() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void setData(XBTBlock block) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBTBlock getData() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

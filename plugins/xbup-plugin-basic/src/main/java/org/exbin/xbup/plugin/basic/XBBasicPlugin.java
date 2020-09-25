@@ -16,6 +16,7 @@
 package org.exbin.xbup.plugin.basic;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.JPanel;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.plugin.InvalidPluginParameterException;
@@ -29,15 +30,19 @@ import org.exbin.xbup.plugin.XBCatalogPlugin;
 import org.exbin.xbup.plugin.XBComponentEditorCatalogPlugin;
 import org.exbin.xbup.plugin.XBComponentViewer;
 import org.exbin.xbup.plugin.XBComponentViewerCatalogPlugin;
+import org.exbin.xbup.plugin.XBPanelViewer;
+import org.exbin.xbup.plugin.XBPanelViewerCatalogPlugin;
 import org.exbin.xbup.plugin.XBRowEditorCatalogPlugin;
+import org.exbin.xbup.plugin.basic.panel_viewer.TextPanelViewer;
 
 /**
  * Basic catalog plugin - provides panels for basic XBUP data types.
  *
- * @version 0.2.1 2020/07/27
+ * @version 0.2.1 2020/09/25
  * @author ExBin Project (http://exbin.org)
  */
-public class XBBasicPlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin, XBComponentViewerCatalogPlugin, XBComponentEditorCatalogPlugin {
+@ParametersAreNonnullByDefault
+public class XBBasicPlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin, XBComponentViewerCatalogPlugin, XBComponentEditorCatalogPlugin, XBPanelViewerCatalogPlugin {
 
     @Nonnull
     @Override
@@ -121,4 +126,21 @@ public class XBBasicPlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin,
 
         throw new InvalidPluginParameterException();
     }
+
+    @Override
+    public long getPanelViewersCount() {
+        return 1;
+    }
+
+    @Override
+    public XBPanelViewer getPanelViewer(long index) {
+        switch ((int) index) {
+            case 0: {
+                return new TextPanelViewer();
+            }
+        }
+        
+        throw new InvalidPluginParameterException();
+    }
+
 }

@@ -18,22 +18,22 @@ package org.exbin.xbup.plugin.picture;
 import javax.annotation.Nonnull;
 import org.exbin.xbup.plugin.InvalidPluginParameterException;
 import org.exbin.xbup.plugin.XBRowEditor;
-import org.exbin.xbup.plugin.XBComponentEditor;
-import org.exbin.xbup.plugin.picture.component_editor.PictureComponentEditor;
+import org.exbin.xbup.plugin.picture.panel_editor.PicturePanelEditor;
 import org.exbin.xbup.plugin.XBCatalogPlugin;
-import org.exbin.xbup.plugin.XBComponentEditorCatalogPlugin;
-import org.exbin.xbup.plugin.XBComponentViewer;
-import org.exbin.xbup.plugin.XBComponentViewerCatalogPlugin;
+import org.exbin.xbup.plugin.XBPanelEditor;
+import org.exbin.xbup.plugin.XBPanelEditorCatalogPlugin;
+import org.exbin.xbup.plugin.XBPanelViewer;
+import org.exbin.xbup.plugin.XBPanelViewerCatalogPlugin;
 import org.exbin.xbup.plugin.XBRowEditorCatalogPlugin;
-import org.exbin.xbup.plugin.picture.component_viewer.PictureComponentViewer;
+import org.exbin.xbup.plugin.picture.panel_viewer.PicturePanelViewer;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.2.0 2020/07/23
+ * @version 0.2.0 2020/09/25
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPicturePlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin, XBComponentViewerCatalogPlugin, XBComponentEditorCatalogPlugin {
+public class XBPicturePlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugin, XBPanelViewerCatalogPlugin, XBPanelEditorCatalogPlugin {
 
     @Override
     public String getPluginPath() {
@@ -52,29 +52,29 @@ public class XBPicturePlugin implements XBCatalogPlugin, XBRowEditorCatalogPlugi
     }
 
     @Override
-    public long getComponentViewersCount() {
+    public long getPanelViewersCount() {
         return 1;
     }
 
     @Override
-    public XBComponentViewer getComponentViewer(long index) {
+    public XBPanelViewer getPanelViewer(long index) {
         if (index == 0) {
-            return new PictureComponentViewer();
+            return new PicturePanelViewer();
         }
 
         throw new InvalidPluginParameterException();
     }
 
     @Override
-    public long getComponentEditorsCount() {
+    public long getPanelEditorsCount() {
         return 1;
     }
 
     @Nonnull
     @Override
-    public XBComponentEditor getComponentEditor(long index) {
+    public XBPanelEditor getPanelEditor(long index) {
         if (index == 0) {
-            return new PictureComponentEditor();
+            return new PicturePanelEditor();
         }
 
         throw new InvalidPluginParameterException();
