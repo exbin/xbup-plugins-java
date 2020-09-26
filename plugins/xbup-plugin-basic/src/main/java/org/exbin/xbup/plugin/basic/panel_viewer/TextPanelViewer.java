@@ -17,6 +17,7 @@ package org.exbin.xbup.plugin.basic.panel_viewer;
 
 import java.io.IOException;
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -43,8 +44,9 @@ public class TextPanelViewer extends XBAbstractPanelViewer implements XBPanelVie
 
     @Override
     public JComponent getViewer() {
-        JTextArea component = new JTextArea(value.getValue());
-        component.setEditable(false);
+        JTextArea textArea = new JTextArea(value.getValue());
+        textArea.setEditable(false);
+        JScrollPane component = new JScrollPane(textArea);
         return component;
     }
 

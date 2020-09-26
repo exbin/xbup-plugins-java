@@ -17,6 +17,7 @@ package org.exbin.xbup.plugin.basic.panel_editor;
 
 import java.io.IOException;
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -35,7 +36,8 @@ import org.exbin.xbup.plugin.XBPanelEditor;
 public class TextPanelEditor extends XBAbstractPanelEditor implements XBPanelEditor, XBPSequenceSerializable {
 
     private XBText value = new XBText();
-    private JTextArea editor = null;
+    private JTextArea textArea;
+    private JScrollPane editor = null;
 
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
@@ -44,13 +46,14 @@ public class TextPanelEditor extends XBAbstractPanelEditor implements XBPanelEdi
 
     @Override
     public JComponent getEditor() {
-        editor = new JTextArea(value.getValue());
+        textArea = new JTextArea(value.getValue());
+        editor = new JScrollPane(textArea);
         return editor;
     }
 
     @Override
     public boolean finishEditor() {
-        value.setValue(editor.getText());
+        value.setValue(textArea.getText());
         fireValueChange();
         return true;
     }
