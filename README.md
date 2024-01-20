@@ -10,7 +10,7 @@ This should provide following advantages:
  * Flexibility - General framework should provide data transformations/processing and compatibility issues solving capability
  * Comprehensibility - Catalog of data types, metadata, relations and abstraction should allow better understanding of data
 
-Homepage: http://xbup.exbin.org  
+Homepage: https://xbup.exbin.org  
 
 This repository contains Java implementation of the protocol and support tools and sample files.
 
@@ -34,7 +34,7 @@ Java Development Kit (JDK) version 8 or later is required to build this project.
 
 For project compiling Gradle 6.0 build system is used. You can either download and install gradle and run "gradle build" command in project folder or gradlew or gradlew.bat scripts to download separate copy of gradle to perform the project build.
 
-Build system website: http://gradle.org
+Build system website: https://gradle.org
 
 License
 -------
