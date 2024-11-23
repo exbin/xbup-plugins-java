@@ -1,25 +1,25 @@
 // Shared plugins build
 
-version = '0.2.2-SNAPSHOT'
+version = '0.2.2'
 def repositoryName = "xbup-plugins-java"
 def libraryUrl = 'http://xbup.exbin.org'
 
 ext.depsExbinAuxiliaryJava = [
     githubProfile: 'exbin',
     githubRepo: 'exbin-auxiliary-java',
-    version: '0.2.0-SNAPSHOT'
+    version: '0.2.1'
 ]
 
 ext.depsXbupDataJava = [
     githubProfile: 'exbin',
     githubRepo: 'xbup-data-java',
-    version: '0.2.2-SNAPSHOT'
+    version: '0.2.2'
 ]
 
 ext.depsXbupJava = [
     githubProfile: 'exbin',
     githubRepo: 'xbup-java',
-    version: '0.2.2-SNAPSHOT'
+    version: '0.2.2'
 ]
 
 ext.depsThis = 'XbupPluginsJava'
@@ -29,12 +29,9 @@ buildscript {
         mavenLocal()
         jcenter()
     }
-    dependencies {
-        classpath("at.bxm.gradleplugins:gradle-svntools-plugin:latest.integration")
-    }
 }
 
-['java', 'maven-publish', 'at.bxm.svntools'].each {
+['java', 'maven-publish'].each {
     apply plugin: it
 }
 import org.gradle.util.VersionNumber

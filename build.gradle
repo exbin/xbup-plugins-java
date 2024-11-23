@@ -1,16 +1,13 @@
-version = '0.2.2-SNAPSHOT'
+version = '0.2.2'
 
 buildscript {
     repositories {
         mavenLocal()
         jcenter()
     }
-    dependencies {
-        classpath("at.bxm.gradleplugins:gradle-svntools-plugin:latest.integration")
-    }
 }
 
-['base', 'distribution', 'maven-publish', 'at.bxm.svntools'].each {
+['base', 'distribution', 'maven-publish'].each {
     apply plugin: it
 }
 
